@@ -4,7 +4,6 @@ import com.evgeniy.model.entity.Person;
 import com.evgeniy.model.entity.Pesel;
 import com.evgeniy.model.repository.PersonRepository;
 import com.evgeniy.model.repository.PeselRepository;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class StartUpService {
     }
 
     @Nullable
-    private Pesel buildPesel(@NotNull final Person person) {
+    private Pesel buildPesel(final Person person) {
         if (Objects.nonNull(person)
                 && random.nextBoolean()) {
             final Pesel pesel = new Pesel();
