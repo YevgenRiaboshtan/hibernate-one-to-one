@@ -53,6 +53,11 @@
 			<artifactId>annotations</artifactId>
 			<version>13.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-orm</artifactId>
+			<version>5.6.1.Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>

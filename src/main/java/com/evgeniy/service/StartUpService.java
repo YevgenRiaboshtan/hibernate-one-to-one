@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by Yevgen on 2017-05-08.
@@ -27,8 +28,13 @@ public class StartUpService {
 
     public void startUp() {
         insertPersons(10);
+        find("3e4r");
+        findFull("3e4r");
+
+        /*find("1q2w");
+        findFull("1q2w");
         printPersons();
-        printPesels();
+        printPesels();*/
     }
 
     private void insertPersons(int count) {
@@ -42,9 +48,15 @@ public class StartUpService {
 
     private Person buildPersonWithPesel() {
         final Person person = new Person();
-        person.setName("NAME" + random.nextInt());
-        person.setPesel(buildPesel(person));
+        person.setFirstName(generateName());
+        person.setMiddleName(generateName());
+        person.setLastName(generateName());
+        /*person.setPesel(buildPesel(person));*/
         return person;
+    }
+
+    private String generateName() {
+        return UUID.randomUUID().toString() + (random.nextBoolean() ? "3e4r" : "1q2w");
     }
 
     @Nullable
@@ -61,13 +73,29 @@ public class StartUpService {
 
     private void printPersons() {
         final List<Person> persons = personRepository.findAll();
-        persons.forEach(System.out::println);
+        //persons.forEach(System.out::println);
         System.out.println("Persons count " + persons.size());
     }
 
     private void printPesels() {
         final List<Pesel> pesels = peselRepository.findAll();
-        pesels.forEach(System.out::println);
+        //pesels.forEach(System.out::println);
         System.out.println("Pesels count " + pesels.size());
+    }
+
+    private void find(String name) {
+        long start = System.currentTimeMillis();
+        String search = "%" + name + "%";
+        List<Person> result = personRepository.findByFirstNameLikeOrMiddleNameLikeOrLastNameLike(search, search, search);
+        System.out.println(System.currentTimeMillis() - start);
+        System.out.println("Count for " + name + " = " + result.size());
+    }
+
+    private void findFull(String name) {
+        long start = System.currentTimeMillis();
+        String search = name;
+        List<Person> result = personRepository.searchByName(search);
+        System.out.println(System.currentTimeMillis() - start);
+        System.out.println("Count for " + name + " = " + result.size());
     }
 }
